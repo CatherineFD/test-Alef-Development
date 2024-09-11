@@ -9,11 +9,11 @@ export default createStore({
     children: []
   },
   getters: {
-    getUser() {
-      return this.state.user;
+    getUser(state) {
+      return state.user;
     },
-    getChildren() {
-      return this.state.children;
+    getChildren(state) {
+      return state.children;
     }
   },
   mutations: {
