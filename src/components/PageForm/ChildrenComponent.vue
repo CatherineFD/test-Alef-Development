@@ -1,19 +1,50 @@
 <script>
 import AddButton from "@/components/UI/AddButton.vue";
 import ChildComponent from "@/components/PageForm/ChildComponent.vue";
-import {mapGetters} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
-  name: "ChildremComponent",
+  name: "ChildrenComponent",
   components: {
     AddButton,
     ChildComponent
   },
-  computed: {
-    ...mapGetters({
-      children: 'getChildren'
-    })
-  }
+  props: {
+    children: {
+      type: Array,
+      default: () => []
+    }
+  },
+  data() {
+    return {
+      isShow: false,
+      newChildren: [...this.children] || [],
+      newChild: {},
+    }
+  },
+  methods: {
+    ...mapActions({saveNewChildren: 'setChildren'}),
+    addChildren() {
+      let newChild = {};
+      this.newChildren.push(newChild);
+      this.$emit('update:children', this.newChildren);
+    },
+    saveChildren() {
+      this.saveNewChildren(this.newChildren);
+    },
+    deleteChild(child) {
+      this.newChildren = this.newChildren.filter((c) => c.id !== child.id);
+    },
+    updateChild(child) {
+      this.newChildren = this.newChildren.map((c) => c.id === child.id ? child : c);
+      this.$emit('update:children', this.newChildren);
+    }
+  },
+  watch: {
+    children(newVal) {
+      this.newChildren = [...newVal];
+    }
+  },
 }
 </script>
 
@@ -22,11 +53,15 @@ export default {
   <div class="container__header">
     <h2 class="title">Дети (макс. 5)</h2>
 
-    <AddButton :title="'Добавить ребенка'"></AddButton>
+    <AddButton :title="'Добавить ребенка'" @clickBtn="addChildren"></AddButton>
   </div>
-  <ChildComponent></ChildComponent>
-  <div v-for="child in children">
-    <ChildComponent :child="child"></ChildComponent>
+
+  <div v-for="child in newChildren">
+    <ChildComponent
+        :child="child"
+        @deleteChild="deleteChild(child)"
+        @update:child="updateChild(child)"
+    ></ChildComponent>
   </div>
 </div>
 </template>

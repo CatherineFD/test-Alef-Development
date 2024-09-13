@@ -11,7 +11,7 @@
   <div class="header__menu">
     <nav>
       <router-link to="/" class="header__menu__link">Форма</router-link>
-      <router-link to="/about" class="header__menu__link">Превью</router-link>
+      <router-link to="/preview" class="header__menu__link">Превью</router-link>
     </nav>
   </div>
 
@@ -21,11 +21,19 @@
 <style scoped lang="scss">
 .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
   padding: 24px;
+  position: relative;
+
+  &__logo {
+    flex: 1;
+  }
 
   &__menu{
-    align-self: center;
+    display: flex;
+    flex: 2;
+    justify-content: center;
     font-size: 14px;
     font-weight: 400;
     line-height: 24px;

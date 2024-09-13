@@ -11,7 +11,7 @@ export default {
 </script>
 
 <template>
-  <button class="white-button">
+  <button class="white-button" @click="$emit('clickBtn')">
     <img src="@/assets/add-icon.svg" alt="add">
     <span>{{title}}</span>
   </button>

@@ -11,7 +11,7 @@ export default {
 </script>
 
 <template>
-  <button class="blue-button">
+  <button class="blue-button" @click="$emit('clickBtn')">
     {{ title }}
   </button>
 </template>

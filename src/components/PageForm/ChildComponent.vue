@@ -9,25 +9,49 @@ export default {
     child: {
       type: Object,
       default: () => ({
+        id: '',
         name: '',
         age: 0
       })
+    }
+  },
+  data() {
+    return {
+      newChild: this.child || {},
+    }
+  },
+  methods: {
+    updateChild(key, value) {
+      this.newChild[key] = value;
+      this.$emit('update:child', { ...this.newChild });
     }
   }
 }
 </script>
 
 <template>
-  <div class="container">
-    <FieldInput :name="'Имя'" :value="child.name"></FieldInput>
-    <FieldInput :name="'Возраст'" :value="child.age"></FieldInput>
+  <div class="block">
+    <FieldInput
+        :name="'Имя'"
+        :value="newChild.name"
+        @update:value="updateChild('name', $event)"
+    ></FieldInput>
+    <FieldInput
+        :name="'Возраст'"
+        :value="newChild.age"
+        @update:value="updateChild('age', $event)"
+    ></FieldInput>
+
+    <button @click="$emit('deleteChild')">Удалить</button>
   </div>
 </template>
 
 <style scoped lang="scss">
-.container {
+.block {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 10px;
 }
 </style>

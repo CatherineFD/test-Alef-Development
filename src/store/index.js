@@ -1,12 +1,13 @@
 import { createStore } from 'vuex'
 
+const user = {name: 'Петя', age: 70}
+
+const children = [{id: 1, name: 'Коля', age: 10}, {id:2, name: 'Вася', age: 5}]
+
 export default createStore({
   state: {
-    user: {
-      name: '',
-      age: 0
-    },
-    children: []
+    user: user,
+    children: children || []
   },
   getters: {
     getUser(state) {
@@ -28,6 +29,10 @@ export default createStore({
     }
   },
   actions: {
+    updateAllData({ commit }, {user, children}) {
+      commit('setUser', user);
+      commit('setChildren', children);
+    },
     setUser({ commit }, user) {
       commit('setUser', user);
     },

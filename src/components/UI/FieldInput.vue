@@ -7,27 +7,39 @@ export default {
       required: true
     },
     value: {
-      type: String,
+      type: [String, Number],
       default: ''
+    }
+  },
+  methods: {
+    handleInput(event) {
+      this.text = event.target.value;
+      this.$emit('update:value', this.text);
     }
   },
   data() {
     return {
       text: this.value,
     }
+  },
+  watch: {
+    value(newVal) {
+      this.text = newVal;
+    }
   }
 }
 </script>
 
 <template>
-<div class="block">
-  <label class="block__label" for="text">{{name}}</label>
-  <input class="block__input" name="text" type="text" v-model="text">
+<div class="element">
+
+  <label class="element__label" for="text">{{name}}</label>
+  <input class="element__input" name="text" type="text" :value="text" @input="handleInput">
 </div>
 </template>
 
 <style scoped lang="scss">
-.block {
+.element {
   display: flex;
   flex-direction: column;
   justify-content: center;
