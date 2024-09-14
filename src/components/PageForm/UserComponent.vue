@@ -25,24 +25,32 @@ export default {
       this.newUser[key] = value;
       this.$emit('update:user', { ...this.newUser });
     }
+  },
+  computed: {
+    isErrorUser() {
+      const values = Object.values(this.newUser);
+      return values.some(value => value === '');
+    }
   }
 }
 </script>
 
 <template>
-<div class="container">
+<div class="user">
   <h2 class="title">Персональные данные</h2>
   <FieldInput :name="'Имя'" :value="newUser.name" class="indent" @update:value="updateUser('name', $event)"></FieldInput>
   <FieldInput :name="'Возраст'" :value="newUser.age" @update:value="updateUser('age', $event)"></FieldInput>
+
+  <p class="error" v-if="isErrorUser">Введите данные</p>
 </div>
 </template>
 
 <style scoped lang="scss">
-.container {
+.user {
   display: flex;
   flex-direction: column;
-  max-width: 60%;
-  margin: 0 auto 44px;
+  width: 100%;
+  margin-bottom: 33px;
 }
 
 .title {
@@ -55,5 +63,11 @@ export default {
 
 .indent {
   margin-bottom: 10px;
+}
+
+.error {
+  color: #c20101;
+  margin-top: 0;
+  font-size: 12px;
 }
 </style>

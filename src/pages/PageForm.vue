@@ -3,47 +3,101 @@ import UserComponent from "@/components/PageForm/UserComponent.vue";
 import ChildrenComponent from "@/components/PageForm/ChildrenComponent.vue";
 import BlueButton from "@/components/UI/BlueButton.vue";
 import {mapActions, mapGetters} from "vuex";
+import Loader from "@/components/UI/Loader.vue";
 
 export default {
   name: "PageForm",
   components: {
     UserComponent,
     ChildrenComponent,
-    BlueButton
+    BlueButton,
+    Loader
   },
   methods: {
     ...mapActions(['updateAllData']),
     handleChildrenUpdate(newChildren) {
-      this.children = newChildren;
+      this.localChildren = newChildren;
     },
     handleUser(newUser) {
-      this.user = newUser;
+      this.localUser = newUser;
     },
     saveChildren() {
-      this.updateAllData({user: this.user, children: this.children});
+      const filteredChildren = this.localChildren.filter(child => {
+        const values = Object.values(child);
+        return values.some(value => value === '');
+      });
+
+      if (!this.isErrorUser && !this.isErrorChildren) {
+        console.log(this.localUser)
+        this.updateAllData({user: this.localUser, children: this.localChildren});
+      }
     }
+  },
+  data() {
+    return {
+      localUser: {},
+      localChildren: []
+    };
   },
   computed: {
     ...mapGetters(
         {
           user: 'getUser',
-          children: 'getChildren'
+          children: 'getChildren',
+          isLoading: 'getLoading'
         }
     ),
+    isErrorUser() {
+      const values = Object.values(this.localUser);
+      return values.some(value => value === '');
+    },
+    isErrorChildren() {
+      return this.localChildren.some(item =>
+          Object.values(item).some(value => value === '')
+      );
+    }
   },
+  watch: {
+    user(newUser) {
+      this.localUser = newUser;
+    },
+    children(newChildren) {
+      this.localChildren = newChildren;
+    }
+  },
+
+  mounted() {
+    this.localUser = this.user;
+    this.localChildren = this.children;
+  }
 
 }
 </script>
 
 <template>
-  <div>
-    <UserComponent :user="user" @update:user="handleUser(user)"/>
-    <ChildrenComponent v-model:children="children" @update:children="handleChildrenUpdate(children)"/>
-    <BlueButton :title="'Сохранить'" @clickBtn="saveChildren"></BlueButton>
+  <Loader v-if="isLoading"/>
+
+  <div v-else class="container">
+    <UserComponent :user="user" @update:user="handleUser"/>
+    <ChildrenComponent :children="children" @update:children="handleChildrenUpdate"/>
+
+    <div class="container__button">
+      <BlueButton :title="'Сохранить'" @clickBtn="saveChildren"></BlueButton>
+    </div>
   </div>
 
 </template>
 
 <style scoped lang="scss">
+.container {
+  max-width: 60%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+
+  &__button {
+    display: flex;
+  }
+}
 
 </style>

@@ -19,7 +19,6 @@ export default {
     return {
       isShow: false,
       newChildren: [...this.children] || [],
-      newChild: {},
     }
   },
   methods: {
@@ -38,22 +37,30 @@ export default {
     updateChild(child) {
       this.newChildren = this.newChildren.map((c) => c.id === child.id ? child : c);
       this.$emit('update:children', this.newChildren);
+    },
+  },
+  computed: {
+    isShowButton() {
+      return this.newChildren.length < 5;
     }
   },
   watch: {
     children(newVal) {
       this.newChildren = [...newVal];
+    },
+    newChildren(newVal) {
+      this.$emit('update:children', newVal);
     }
   },
 }
 </script>
 
 <template>
-<div class="container">
-  <div class="container__header">
+<div class="children">
+  <div class="children__header">
     <h2 class="title">Дети (макс. 5)</h2>
 
-    <AddButton :title="'Добавить ребенка'" @clickBtn="addChildren"></AddButton>
+    <AddButton :title="'Добавить ребенка'" @clickBtn="addChildren" v-if="isShowButton"></AddButton>
   </div>
 
   <div v-for="child in newChildren">
@@ -67,16 +74,16 @@ export default {
 </template>
 
 <style scoped lang="scss">
-.container {
+.children {
   display: flex;
   flex-direction: column;
-  max-width: 60%;
-  margin: 0 auto;
+  width: 100%;
 
   &__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 11px;
   }
 
   .title {

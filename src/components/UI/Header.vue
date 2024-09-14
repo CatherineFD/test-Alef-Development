@@ -8,12 +8,12 @@
     <img src="@/assets/logo.svg" alt="logo">
   </div>
 
-  <div class="header__menu">
-    <nav>
+
+    <nav class="header__menu">
       <router-link to="/" class="header__menu__link">Форма</router-link>
       <router-link to="/preview" class="header__menu__link">Превью</router-link>
     </nav>
-  </div>
+
 
 </header>
 </template>
@@ -21,23 +21,26 @@
 <style scoped lang="scss">
 .header {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   padding: 24px;
   position: relative;
 
-  &__logo {
-    flex: 1;
-  }
+
 
   &__menu{
+    position: absolute;
+    left: 50%;
     display: flex;
-    flex: 2;
     justify-content: center;
     font-size: 14px;
     font-weight: 400;
     line-height: 24px;
     text-align: left;
+
+    > *:not(:last-child) {
+      margin-right: 24px;
+    }
 
     &__link {
       text-decoration: none;

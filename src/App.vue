@@ -1,6 +1,8 @@
 <template>
   <Header></Header>
-  <router-view/>
+  <main class="main-content">
+    <router-view/>
+  </main>
   <Footer/>
 </template>
 
@@ -20,9 +22,14 @@ export default {
 <style lang="scss">
 #app {
   font-family: "Montserrat", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
 }
 </style>

@@ -7,7 +7,8 @@ const children = [{id: 1, name: 'Коля', age: 10}, {id:2, name: 'Вася', a
 export default createStore({
   state: {
     user: user,
-    children: children || []
+    children: children || [],
+    isLoading: false,
   },
   getters: {
     getUser(state) {
@@ -15,6 +16,9 @@ export default createStore({
     },
     getChildren(state) {
       return state.children;
+    },
+    getLoading(state) {
+        return state.isLoading;
     }
   },
   mutations: {
@@ -24,14 +28,18 @@ export default createStore({
     setChildren(state, children) {
       state.children = children;
     },
-    addChildren(state, child) {
-      state.children.push(child);
+    setLoading(state, isLoading) {
+        state.isLoading = isLoading;
     }
   },
   actions: {
     updateAllData({ commit }, {user, children}) {
-      commit('setUser', user);
-      commit('setChildren', children);
+      commit('setLoading', true);
+      setTimeout(() => {
+        commit('setUser', user);
+        commit('setChildren', children);
+        commit('setLoading', false);
+      }, 3000);
     },
     setUser({ commit }, user) {
       commit('setUser', user);
@@ -39,9 +47,6 @@ export default createStore({
     setChildren({ commit }, children) {
       commit('setChildren', children);
     },
-    addChildren({ commit }, child) {
-      commit('addChildren', child);
-    }
   },
   modules: {
   }

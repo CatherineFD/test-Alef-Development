@@ -1,8 +1,12 @@
 <script>
 import {mapGetters} from "vuex";
+import ChildComponent from "@/components/PagePreview/ChildComponent.vue";
 
 export default {
   name: "PagePreview",
+  components: {
+    ChildComponent
+  },
   computed: {
     ...mapGetters({user: 'getUser', children: 'getChildren'}),
   }
@@ -10,22 +14,26 @@ export default {
 </script>
 
 <template>
-<div class="container">
-  <h2 class="container__title">
+<div class="preview">
+  <h2 class="preview__title">
     Персональные данные
   </h2>
 
-  <div class="container__user">
-    {{user.name}}, {{user.age}}лет
+  <div class="preview__user">
+    {{user.name}}, {{user.age}} лет
   </div>
 
-  <h2 class="container__title">
+  <h2 class="preview__title">
     Дети
   </h2>
 
-  <div class="container__children">
-    <div v-for="child in children" class="child">
-      {{child.name}}, {{child.age}} лет
+
+  <div class="preview__children">
+    <div v-for="child in children" class="preview__child">
+    <ChildComponent
+        :key="child.id"
+        :child="child"
+    />
     </div>
   </div>
 
@@ -33,7 +41,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-.container {
+.preview {
   max-width: 600px;
   width: 100%;
   margin: 0 auto;
@@ -55,21 +63,14 @@ export default {
   }
 
   &__children {
-    text-align: left;
-    display: inline-block;
-    .child {
-      background-color: rgba(241, 241, 241, 1);
-      padding: 10px 20px 10px 20px;
-      margin-bottom: 20px;
-      border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
 
-      color: rgba(0, 0, 0, 1);
-      font-size: 16px;
-      font-weight: 700;
-      line-height: 24px;
-      text-align: left;
-
-    }
+  &__child {
+    display: flex;
+    justify-content: flex-start;
   }
 
 }

@@ -32,7 +32,6 @@ export default {
 
 <template>
 <div class="element">
-
   <label class="element__label" for="text">{{name}}</label>
   <input class="element__input" name="text" type="text" :value="text" @input="handleInput">
 </div>
@@ -40,6 +39,7 @@ export default {
 
 <style scoped lang="scss">
 .element {
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

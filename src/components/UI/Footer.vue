@@ -14,9 +14,7 @@ export default {
 .footer {
   background: rgba(250, 250, 250, 1);
   padding: 30px 50px;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
+
 
   display: flex;
   justify-content: center;
