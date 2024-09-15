@@ -27,7 +27,6 @@ export default {
     Дети
   </h2>
 
-
   <div class="preview__children">
     <div v-for="child in children" class="preview__child">
     <ChildComponent

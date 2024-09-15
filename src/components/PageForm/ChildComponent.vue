@@ -5,6 +5,7 @@ export default {
   components: {
     FieldInput
   },
+  emits: ['update:child', 'deleteChild'],
   props: {
     child: {
       type: Object,
@@ -17,30 +18,30 @@ export default {
   },
   data() {
     return {
-      newChild: this.child || {},
+      newChild: {...this.child},
     }
   },
   methods: {
     updateChild(key, value) {
       this.newChild[key] = value;
-      this.$emit('update:child', { ...this.newChild });
+      this.$emit('update:child', this.newChild);
     }
   },
   computed: {
     isErrorChild() {
       const values = Object.values(this.newChild);
-      return values.some(value => value === '');
+      return values.some(value => value === '') || values.length === 0;
     }
   },
-  child(newVal) {
-    this.newChild = newVal;
+  watch: {
+    child(newVal) {
+      this.newChild = newVal;
+    }
   }
 }
 </script>
 
 <template>
-
-  {{newChild}}
   <div class="block">
     <div class="input-field">
       <FieldInput

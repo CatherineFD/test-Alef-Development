@@ -17,7 +17,7 @@ export default {
   },
   data() {
     return {
-      newUser: this.user,
+      newUser: {...this.user},
     }
   },
   methods: {

@@ -13,7 +13,13 @@ export default {
   },
   methods: {
     handleInput(event) {
-      this.text = event.target.value;
+      let inputValue = event.target.value;
+
+      if (this.name === 'Возраст') {
+        inputValue = inputValue.replace(/\D/g, '');
+      }
+
+      this.text = inputValue;
       this.$emit('update:value', this.text);
     }
   },
@@ -26,7 +32,7 @@ export default {
     value(newVal) {
       this.text = newVal;
     }
-  }
+  },
 }
 </script>
 

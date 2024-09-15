@@ -22,13 +22,7 @@ export default {
       this.localUser = newUser;
     },
     saveChildren() {
-      const filteredChildren = this.localChildren.filter(child => {
-        const values = Object.values(child);
-        return values.some(value => value === '');
-      });
-
       if (!this.isErrorUser && !this.isErrorChildren) {
-        console.log(this.localUser)
         this.updateAllData({user: this.localUser, children: this.localChildren});
       }
     }
@@ -52,9 +46,9 @@ export default {
       return values.some(value => value === '');
     },
     isErrorChildren() {
-      return this.localChildren.some(item =>
-          Object.values(item).some(value => value === '')
-      );
+      return this.localChildren.some(item => {
+        return Object.keys(item).length === 0 || Object.values(item).some(value => value === '');
+      });
     }
   },
   watch: {
@@ -65,7 +59,6 @@ export default {
       this.localChildren = newChildren;
     }
   },
-
   mounted() {
     this.localUser = this.user;
     this.localChildren = this.children;

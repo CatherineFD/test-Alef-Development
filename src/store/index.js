@@ -1,13 +1,9 @@
 import { createStore } from 'vuex'
 
-const user = {name: 'Петя', age: 70}
-
-const children = [{id: 1, name: 'Коля', age: 10}, {id:2, name: 'Вася', age: 5}]
-
 export default createStore({
   state: {
-    user: user,
-    children: children || [],
+    user: {},
+    children:  [],
     isLoading: false,
   },
   getters: {

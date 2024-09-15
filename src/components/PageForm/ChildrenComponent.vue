@@ -24,7 +24,11 @@ export default {
   methods: {
     ...mapActions({saveNewChildren: 'setChildren'}),
     addChildren() {
-      let newChild = {};
+      const newChild = {
+        id: Date.now(),
+        name: '',
+        age: ''
+      };
       this.newChildren.push(newChild);
       this.$emit('update:children', this.newChildren);
     },
@@ -59,7 +63,6 @@ export default {
 <div class="children">
   <div class="children__header">
     <h2 class="title">Дети (макс. 5)</h2>
-
     <AddButton :title="'Добавить ребенка'" @clickBtn="addChildren" v-if="isShowButton"></AddButton>
   </div>
 
@@ -67,7 +70,7 @@ export default {
     <ChildComponent
         :child="child"
         @deleteChild="deleteChild(child)"
-        @update:child="updateChild(child)"
+        @update:child="updateChild"
     ></ChildComponent>
   </div>
 </div>
